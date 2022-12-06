@@ -1,0 +1,35 @@
+version: "3"
+
+volumes:
+  postgres_vol:
+  coffee_outlet_volume:
+
+
+services:
+  coffee_outlet-assessment:
+    image: assessment/coffee_outlet-assessment
+    build: .
+    restart: always
+    volumes:
+      - coffee_outlet_volume:/build
+      - coffee_outlet_volume:/src/main/java
+    container_name: coffee_outlet-assessment
+    ports:
+      - 8082:8081
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: "postgres:latest"
+    container_name: pg-db
+    restart: always
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: coffee_outlet
+    volumes:
+      - postgres_vol:/var/lib/postgressql/data/
+

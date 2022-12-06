@@ -1,0 +1,403 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="create_user" id="1">
+        <createTable remarks="Used to store user's information"
+                     tableName="users">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="contact" type="varchar(15)"/>
+            <column name="password" type="varchar(50)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="password_unique"/>
+            </column>
+
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="username_unique"/>
+            </column>
+            <column name="emailid" type="varchar(50)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="emailid_unique"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="create_coffeeoutlet" id="2">
+        <createTable remarks="Used to store coffeeoutlet information"
+                     tableName="coffeeoutlet">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="contact_no" type="varchar(15)"/>
+            <column name="opening" type="time"/>
+            <column name="closing" type="time"/>
+            <column name="address" type="varchar(50)"/>
+            <column name="userid" type="int">
+                <constraints foreignKeyName="userid_foreignkey"
+                             references="users(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="create_coffeeoutletorder" id="3">
+        <createTable remarks="Used to store coffeeoutletorder information"
+                     tableName="coffeeoutletorder">
+            <column name="order_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ordertime" type="time"/>
+            <column name="orderdate" type="date"/>
+            <column name="userid" type="int">
+                <constraints foreignKeyName="userid_foreignkey"
+                             references="users(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="create_role" id="4">
+        <createTable remarks="Used to store role information"
+                     tableName="role">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="description" type="varchar(100)"/>
+
+        </createTable>
+    </changeSet>
+    <changeSet author="create_user_role" id="5">
+        <createTable remarks="Used to store role and user mapping information"
+                     tableName="user_role">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="userid" type="int">
+                <constraints foreignKeyName="userid_foreignkey"
+                             references="users(id)"/>
+            </column>
+            <column name="roleid" type="int">
+                <constraints foreignKeyName="roleid_foreignkey"
+                             references="role(id)"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+    <changeSet author="create_menu" id="6">
+        <createTable remarks="Used to store menu information"
+                     tableName="menu">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(20)"/>
+            <column name="coffeeoutletid" type="int">
+                <constraints foreignKeyName="coffeeoutlet_foreignkey"
+                             references="coffeeoutlet(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="create_menuitem" id="7">
+        <createTable remarks="Used to store the menu's item information"
+                     tableName="menuitem">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_name" type="varchar(20)"/>
+            <column name="price" type="double"/>
+            <column name="menuid" type="int">
+                <constraints foreignKeyName="menu_foreignkey"
+                             references="menu(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="create_order_item" id="8">
+        <createTable remarks="Used to store the order and item mapping information"
+                     tableName="order_item">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="itemid" type="int">
+                <constraints foreignKeyName="menuitem_foreignkey"
+                             references="menuitem(id)"/>
+            </column>
+            <column name="orderid" type="int">
+                <constraints foreignKeyName="coffeeoutletorder_foreignkey"
+                             references="coffeeoutletorder(order_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+<!-- .............................................insert into the users table.......................................... -->
+
+    <changeSet  author="insert-users"  id="1.1">
+        <insert tableName="users">
+            <column  name="id"  value="1"/>
+            <column  name="name"  value="Priya"/>
+            <column name="contact" value = "982392891"/>
+            <column name="username" value = "priya_111"/>
+            <column name="password" value = "priya@123"/>
+            <column name="emailid" value = "priya111@gmail.com"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-users"  id="1.2">
+        <insert tableName="users">
+            <column  name="id"  value="2"/>
+            <column  name="name"  value="Sapna"/>
+            <column name="contact" value = "9493940234"/>
+            <column name="username" value = "sapna_222"/>
+            <column name="password" value = "sapna@123"/>
+            <column name="emailid" value = "sapna222@gmail.com"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-users"  id="1.3">
+        <insert tableName="users">
+            <column  name="id"  value="3"/>
+            <column  name="name"  value="Chhaya"/>
+            <column name="contact" value = "94028492"/>
+            <column name="username" value = "chhaya_333"/>
+            <column name="password" value = "chhaya@123"/>
+            <column name="emailid" value = "chhaya333@gmail.com"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-users"  id="1.4">
+        <insert tableName="users">
+            <column  name="id"  value="4"/>
+            <column  name="name"  value="Reena"/>
+            <column name="contact" value = "984239492"/>
+            <column name="username" value = "reena_444"/>
+            <column name="password" value = "reena@123"/>
+            <column name="emailid" value = "reena444@gmail.com"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-users"  id="1.5">
+        <insert tableName="users">
+            <column  name="id"  value="5"/>
+            <column  name="name"  value="Vikas"/>
+            <column name="contact" value = "910841831"/>
+            <column name="username" value = "vikas_555"/>
+            <column name="password" value = "vikas@123"/>
+            <column name="emailid" value = "vikas555@gmail.com"/>
+        </insert>
+    </changeSet>
+    <!-- .............................................insert into the coffeeoutlet table....................................-->
+
+
+    <changeSet  author="insert-coffeeoutlet"  id="2.1">
+        <insert tableName="coffeeoutlet">
+            <column  name="id"  value="1"/>
+            <column  name="name"  value="CCD"/>
+            <column name="contact_no" value = "931491032"/>
+            <column name="opening" value = "09:30:00"/>
+            <column name="closing" value = "22:00:00"/>
+            <column name="address" value = "Phase1,Mohali,Punjab"/>
+            <column name="userid" value = "1"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-coffeeoutlet"  id="2.2">
+        <insert tableName="coffeeoutlet">
+            <column  name="id"  value="2"/>
+            <column  name="name"  value="MohaliCafe"/>
+            <column name="contact_no" value = "90324294502"/>
+            <column name="opening" value = "08:30:00"/>
+            <column name="closing" value = "21:00:00"/>
+            <column name="address" value = "Phase2,Mohali,Punjab"/>
+            <column name="userid" value = "2"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-coffeeoutlet"  id="2.3">
+        <insert tableName="coffeeoutlet">
+            <column  name="id"  value="3"/>
+            <column  name="name"  value="CoffeePup"/>
+            <column name="contact_no" value = "9430290293"/>
+            <column name="opening" value = "09:30:00"/>
+            <column name="closing" value = "21:30:00"/>
+            <column name="address" value = "Lucknow,UttarPradesh"/>
+            <column name="userid" value = "2"/>
+        </insert>
+    </changeSet>
+
+
+<!--....................................... insert into coffeeoutletorder table............................................ -->
+    <changeSet  author="insert-coffeeoutletorder"  id="3.1">
+        <insert tableName="coffeeoutletorder">
+            <column  name="order_id"  value="1"/>
+            <column  name= "ordertime"  value="07:00:15"/>
+            <column name="orderdate" value = "2022-11-07"/>
+            <column name="userid" value = "3"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-coffeeoutletorder"  id="3.2">
+        <insert tableName="coffeeoutletorder">
+            <column  name="order_id"  value="2"/>
+            <column  name= "ordertime"  value="10:30:05"/>
+            <column name="orderdate" value = "2022-11-03"/>
+            <column name="userid" value = "4"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-coffeeoutletorder"  id="3.3">
+        <insert tableName="coffeeoutletorder">
+            <column  name="order_id"  value="3"/>
+            <column  name= "ordertime"  value="07:08:31"/>
+            <column name="orderdate" value = "2022-10-25"/>
+            <column name="userid" value = "3"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-coffeeoutletorder"  id="3.4">
+        <insert tableName="coffeeoutletorder">
+            <column  name="order_id"  value="4"/>
+            <column  name= "ordertime"  value="05:00:05"/>
+            <column name="orderdate" value = "2022-10-28"/>
+            <column name="userid" value = "4"/>
+        </insert>
+    </changeSet>
+<!--..........................................insert into role..................................................... -->
+
+    <changeSet  author="insert-role"  id="4.1">
+        <insert tableName="role">
+            <column  name="id"  value="1"/>
+            <column  name= "name"  value="ROLE_ADMIN"/>
+            <column name="description" value = "admin"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-role"  id="4.2">
+        <insert tableName="role">
+            <column  name="id"  value="2"/>
+            <column  name= "name"  value="ROLE_USER"/>
+            <column name="description" value = "cafe owner"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-role"  id="4.3">
+        <insert tableName="role">
+            <column  name="id"  value="3"/>
+            <column  name= "name"  value="ROLE_CUSTOMER"/>
+            <column name="description" value = "customer"/>
+        </insert>
+    </changeSet>
+   <!--.......................insert user_role mapping table.................................................. -->
+
+    <changeSet  author="insert-user_role"  id="5.1">
+        <insert tableName="user_role">
+            <column  name="id"  value="1"/>
+            <column  name= "userid"  value="1"/>
+            <column name="roleid" value = "2"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-user_role"  id="5.2">
+        <insert tableName="user_role">
+            <column  name="id"  value="2"/>
+            <column  name= "userid"  value="2"/>
+            <column name="roleid" value = "2"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-user_role"  id="5.3">
+        <insert tableName="user_role">
+            <column  name="id"  value="3"/>
+            <column  name= "userid"  value="3"/>
+            <column name="roleid" value = "3"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-user_role"  id="5.4">
+        <insert tableName="user_role">
+            <column  name="id"  value="4"/>
+            <column  name= "userid"  value="4"/>
+            <column name="roleid" value = "3"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-user_role"  id="5.5">
+        <insert tableName="user_role">
+            <column  name="id"  value="5"/>
+            <column  name= "userid"  value="5"/>
+            <column name="roleid" value = "1"/>
+        </insert>
+    </changeSet>
+
+    <!--.........................................insert menu table.................................................. -->
+
+    <changeSet  author="insert-menu"  id="6.1">
+        <insert tableName="menu">
+            <column  name="id"  value="1"/>
+            <column  name= "name"  value="beverage"/>
+            <column name="coffeeoutletid" value = "1"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-menu"  id="6.2">
+        <insert tableName="menu">
+            <column  name="id"  value="2"/>
+            <column  name= "name"  value="snacks"/>
+            <column name="coffeeoutletid" value = "1"/>
+        </insert>
+    </changeSet>
+<!-- ............................................... insert into menuitem ................................   -->
+
+    <changeSet  author="insert-menuitem"  id="7.1">
+        <insert tableName="menuitem">
+            <column  name="id"  value="1"/>
+            <column  name= "item_name"  value="Coffee"/>
+            <column name="price" value = "200"/>
+            <column name="menuid" value = "1"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-menuitem"  id="7.2">
+        <insert tableName="menuitem">
+            <column  name="id"  value="2"/>
+            <column  name= "item_name"  value="Tea"/>
+            <column name="price" value = "50"/>
+            <column name="menuid" value = "1"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-menuitem"  id="7.3">
+        <insert tableName="menuitem">
+            <column  name="id"  value="3"/>
+            <column  name= "item_name"  value="GarlicBread"/>
+            <column name="price" value = "300"/>
+            <column name="menuid" value = "2"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-menuitem"  id="7.4">
+        <insert tableName="menuitem">
+            <column  name="id"  value="4"/>
+            <column  name= "item_name"  value="Sandwich"/>
+            <column name="price" value = "120"/>
+            <column name="menuid" value = "2"/>
+        </insert>
+    </changeSet>
+<!--........................................insert order_item mapping table................................................... -->
+
+    <changeSet  author="insert-order_item"  id="8.1">
+        <insert tableName="order_item">
+            <column  name="id"  value="1"/>
+            <column  name= "itemid"  value="1"/>
+            <column name="orderid" value = "4"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-order_item"  id="8.2">
+        <insert tableName="order_item">
+            <column  name="id"  value="2"/>
+            <column  name= "itemid"  value="2"/>
+            <column name="orderid" value = "1"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-order_item"  id="8.3">
+        <insert tableName="order_item">
+            <column  name="id"  value="3"/>
+            <column  name= "itemid"  value="3"/>
+            <column name="orderid" value = "2"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="insert-order_item"  id="8.4">
+        <insert tableName="order_item">
+            <column  name="id"  value="4"/>
+            <column  name= "itemid"  value="3"/>
+            <column name="orderid" value = "3"/>
+        </insert>
+    </changeSet>
+
+
+
+
+
+</databaseChangeLog>
+
+
+
+
+
+

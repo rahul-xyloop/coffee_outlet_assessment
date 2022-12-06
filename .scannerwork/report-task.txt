@@ -1,0 +1,6 @@
+projectKey=coffee_outlet-assessment
+serverUrl=http://localhost:9000
+serverVersion=9.7.1.62043
+dashboardUrl=http://localhost:9000/dashboard?id=coffee_outlet-assessment
+ceTaskId=AYTOxD0g5ytJmvNrRrIu
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYTOxD0g5ytJmvNrRrIu

@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.12'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+	id "org.sonarqube" version "3.3"
+
+}
+/*sonarqube {
+	properties {
+		property 'sonar.host.url', 'http://localhost:9000'
+	}
+}
+*/
+
+apply plugin: 'org.sonarqube'
+group = 'com.digital'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+sonarqube {
+	properties {
+		property "sonar.sourceEncoding", "UTF-8"
+	}
+}
+
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.6.RELEASE'
+
+	implementation 'org.springframework.security:spring-security-jwt:1.0.9.RELEASE'
+	implementation 'org.slf4j:slf4j-api:1.7.25'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core:3.8.2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
